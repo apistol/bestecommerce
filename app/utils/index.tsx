@@ -35,7 +35,7 @@ export const getSingleProduct = async (prodId: number) => {
             }
         })
 
-        console.log(resData.data)
+        console.log("Product returned succesfully.")
 
         return resData.data;
 
