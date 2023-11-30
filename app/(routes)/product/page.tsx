@@ -1,33 +1,31 @@
 import React from "react";
-import { getSingleProduct, getProducts } from "@/app/utils";
+// import { getSingleProduct, getProducts } from "@/app/utils";
 import Image from "next/image";
-import OrderButton from "@/app/_components/OrderButton";
+// import OrderButton from "@/app/_components/OrderButton";
 import { IoMdArrowForward, IoMdArrowBack } from "react-icons/io";
 import Link from "next/link";
 
-interface ProductProps {
-  params: {
-    productId: number;
-  };
-  searchParams: any;
-}
 
-interface ProductData {
-  name: string;
-  description: string;
-  price: string;
-  images: {
-    src: string;
-  }[];
-  attributes: {
-    options: string;
-  }[];
-}
+// interface ProductProps {
+//   params: {
+//     productId: number;
+//   };
+//   searchParams: any;
+// }
 
-const Product = async ({ params, searchParams }: ProductProps) => {
-  const productId = params.productId;
-  const dataProduct: ProductData = await getSingleProduct(productId);
-  const data = await getProducts();
+// interface ProductData {
+//   name: string;
+//   description: string;
+//   price: string;
+//   images: {
+//     src: string;
+//   }[];
+//   attributes: {
+//     options: string;
+//   }[];
+// }
+
+const Product = ({ dataProduct, relatedProducts }) => {
 
   return (
     <div>
@@ -171,7 +169,7 @@ const Product = async ({ params, searchParams }: ProductProps) => {
           {/* Carousel section */}
           <div className="w-full overflow-x-auto pb-6 pt-1 custom-scrollbar border-b border-gray-300">
             <ul className="flex gap-4">
-              {data?.map((product) => (
+              {relatedProducts?.map((product) => (
                 <li
                   key={product.id}
                   className="relative max-h-[275px] w-[65%] max-w-[425px] flex-none"
@@ -209,6 +207,19 @@ const Product = async ({ params, searchParams }: ProductProps) => {
     </div>
   );
 };
+
+// export async function getServerSideProps(context) {
+//   const { productId } = context.params;
+//   const dataProduct = await getSingleProduct(productId);
+//   const relatedProducts = await getProducts();
+
+//   return {
+//     props: {
+//       dataProduct,
+//       relatedProducts,
+//     },
+//   };
+// }
 
 export default Product;
 
