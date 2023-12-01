@@ -1,31 +1,32 @@
-import React from "react";
-// import { getSingleProduct, getProducts } from "@/app/utils";
+// import React from "react";
+import { getSingleProduct, getProducts } from "@/app/utils";
+// import Product from "../Product";
 import Image from "next/image";
-// import OrderButton from "@/app/_components/OrderButton";
+// // import OrderButton from "@/app/_components/OrderButton";
 import { IoMdArrowForward, IoMdArrowBack } from "react-icons/io";
 import Link from "next/link";
 
 
-// interface ProductProps {
-//   params: {
-//     productId: number;
-//   };
-//   searchParams: any;
-// }
+// // interface ProductProps {
+// //   params: {
+// //     productId: number;
+// //   };
+// //   searchParams: any;
+// // }
 
-// interface ProductData {
-//   name: string;
-//   description: string;
-//   price: string;
-//   images: {
-//     src: string;
-//   }[];
-//   attributes: {
-//     options: string;
-//   }[];
-// }
+// // interface ProductData {
+// //   name: string;
+// //   description: string;
+// //   price: string;
+// //   images: {
+// //     src: string;
+// //   }[];
+// //   attributes: {
+// //     options: string;
+// //   }[];
+// // }
 
-const Product = ({ dataProduct, relatedProducts }) => {
+const Product = ({  dataProduct, relatedProducts }) => {
 
   return (
     <div>
@@ -37,7 +38,7 @@ const Product = ({ dataProduct, relatedProducts }) => {
                 className="h-full w-full object-contain"
                 width={1000}
                 height={1000}
-                src={dataProduct.images[0].src}
+                src={dataProduct?.images[0].src}
                 alt="img"
               />
               <div className="absolute bottom-[10%] flex w-full justify-center">
@@ -66,7 +67,7 @@ const Product = ({ dataProduct, relatedProducts }) => {
                       className="relative h-full w-full object-contain transition duration-300 ease-in-out group-hover:scale-105"
                       width={1000}
                       height={100}
-                      src={dataProduct.images[0].src}
+                      src={dataProduct?.images[0].src}
                       alt="img"
                     />
                   </div>
@@ -79,7 +80,7 @@ const Product = ({ dataProduct, relatedProducts }) => {
                       className="relative h-full w-full object-contain transition duration-300 ease-in-out group-hover:scale-105"
                       width={1000}
                       height={100}
-                      src={dataProduct.images[0].src}
+                      src={dataProduct?.images[0].src}
                       alt="img"
                     />
                   </div>
@@ -92,7 +93,7 @@ const Product = ({ dataProduct, relatedProducts }) => {
                       className="relative h-full w-full object-contain transition duration-300 ease-in-out group-hover:scale-105"
                       width={1000}
                       height={100}
-                      src={dataProduct.images[0].src}
+                      src={dataProduct?.images[0].src}
                       alt="img"
                     />
                   </div>
@@ -103,11 +104,11 @@ const Product = ({ dataProduct, relatedProducts }) => {
           <div className="basis-full lg:basis-2/6">
             <div className="mb-6 flex flex-col border-b pb-6">
               <h1 className="mb-2 text-5xl font-semibold">
-                {dataProduct.name}
+                {dataProduct?.name}
               </h1>
               <div className="mr-auto w-auto rounded-full bg-blue-600 p-2 text-md text-white">
                 <p>
-                  {dataProduct.price}.00
+                  {dataProduct?.price}.00
                   <span className="ml-1 inline">RON</span>
                 </p>
               </div>
@@ -208,22 +209,34 @@ const Product = ({ dataProduct, relatedProducts }) => {
   );
 };
 
-// export async function getServerSideProps(context) {
-//   const { productId } = context.params;
-//   const dataProduct = await getSingleProduct(productId);
-//   const relatedProducts = await getProducts();
+export const getDataProduct = async ({ params }) => {
+  try {
+    console.log("Fetching data for product ID:", params.productId);
+    const dataProduct = await getSingleProduct(params.productId);
+    const relatedProducts = await getProducts();
 
-//   return {
-//     props: {
-//       dataProduct,
-//       relatedProducts,
-//     },
-//   };
-// }
+    console.log("Fetched dataProduct:", dataProduct);
+    return {
+      dataProduct,
+      relatedProducts,
+    };
+  } catch (error) {
+    console.error("Error fetching product data:", error);
+    return {
+      dataProduct: null,
+      relatedProducts: [],
+    };
+  }
+};
+
+
+// const ProductPage = ({ dataProduct, relatedProducts }) => {
+//   return <Product dataProduct={dataProduct} relatedProducts={relatedProducts} />;
+// };
 
 export default Product;
 
 // {productId}
 // {dataProduct?.attributes[0]?.options}
-// <h2>{dataProduct.description.replace(/<\/?p>/g, "")}</h2>
+// <h2>{dataProduct?.description.replace(/<\/?p>/g, "")}</h2>
 // <OrderButton productId={productId} />
