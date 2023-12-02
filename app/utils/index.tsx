@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios from "axios"
+
 
 const baseURL = "https://apollo.code-village.ro/wp-json/wc/v3";
 const username = "ck_3d06586e1a83d260041f72db0404f0ca5102f1f7";

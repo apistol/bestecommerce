@@ -1,32 +1,18 @@
-// import React from "react";
+import React from "react";
 import { getSingleProduct, getProducts } from "@/app/utils";
 // import Product from "../Product";
 import Image from "next/image";
 // // import OrderButton from "@/app/_components/OrderButton";
 import { IoMdArrowForward, IoMdArrowBack } from "react-icons/io";
 import Link from "next/link";
+import { ProductData } from "@/app/utils/interfaces";
+import AddToCartBtn from "@/app/_components/AddToCartBtn";
 
 
-// // interface ProductProps {
-// //   params: {
-// //     productId: number;
-// //   };
-// //   searchParams: any;
-// // }
 
-// // interface ProductData {
-// //   name: string;
-// //   description: string;
-// //   price: string;
-// //   images: {
-// //     src: string;
-// //   }[];
-// //   attributes: {
-// //     options: string;
-// //   }[];
-// // }
-
-const Product = ({  dataProduct, relatedProducts }) => {
+const Product = async ({ params }) => {
+    const dataProduct: ProductData = await getSingleProduct(params.productId);
+    const relatedProducts = await getProducts();
 
   return (
     <div>
@@ -159,9 +145,7 @@ const Product = ({  dataProduct, relatedProducts }) => {
               <div className="mx-auto font-medium mb-6">
                 60% combed ringspun cotton/40% polyester jersey tee.
               </div>
-              <button className="flex w-full justify-center items-center text-white p-4 rounded-full bg-blue-600 tracking-wide hover:opacity-90">
-                Add To Cart
-              </button>
+            <AddToCartBtn product={dataProduct}/>
             </div>
           </div>
         </div>
@@ -209,25 +193,25 @@ const Product = ({  dataProduct, relatedProducts }) => {
   );
 };
 
-export const getDataProduct = async ({ params }) => {
-  try {
-    console.log("Fetching data for product ID:", params.productId);
-    const dataProduct = await getSingleProduct(params.productId);
-    const relatedProducts = await getProducts();
+// export const getDataProduct = async ({ params }) => {
+//   try {
+//     console.log("Fetching data for product ID:", params.productId);
+//     const dataProduct = await getSingleProduct(params.productId);
+//     const relatedProducts = await getProducts();
 
-    console.log("Fetched dataProduct:", dataProduct);
-    return {
-      dataProduct,
-      relatedProducts,
-    };
-  } catch (error) {
-    console.error("Error fetching product data:", error);
-    return {
-      dataProduct: null,
-      relatedProducts: [],
-    };
-  }
-};
+//     console.log("Fetched dataProduct:", dataProduct);
+//     return {
+//       dataProduct,
+//       relatedProducts,
+//     };
+//   } catch (error) {
+//     console.error("Error fetching product data:", error);
+//     return {
+//       dataProduct: null,
+//       relatedProducts: [],
+//     };
+//   }
+// };
 
 
 // const ProductPage = ({ dataProduct, relatedProducts }) => {

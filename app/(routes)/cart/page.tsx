@@ -1,20 +1,30 @@
 "use client"
 import React from 'react'
-import { increment, decrement} from "@/app/_redux/features/cart-slice";
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/app/_redux/store';
 import { useAppSelector } from '@/app/_redux/store';
 
-const Cart = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const cartAmount = useAppSelector((state) => state.cartReducer.value.cartAmount);
-    return (
-    <div className='flex gap-6'>
-      <p>Products in cart: {cartAmount}</p>
-      <button onClick={() => dispatch(increment())}>Increment</button>
-      <button onClick={() => dispatch(decrement())}>Decrement</button>
-    </div>
-  )
+export interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  // Add any other relevant fields
 }
+
+const Cart = () => {
+  const cartItems = useAppSelector((state) => Object.values(state.cartReducer.items) as CartItem[]);
+  console.log(cartItems);
+
+
+  return (
+    <div>
+      <h2>Shopping Cart</h2>
+      {cartItems.map((item, index) => (
+        <div key={index}>
+          <h3>{item.name}</h3>
+          <p>Price: {item.price}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default Cart;
